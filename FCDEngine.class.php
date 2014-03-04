@@ -6,7 +6,7 @@ class FCDEngine
     private $data = array();
     private $cards = array();
 
-    public function __construct(array $cards)
+    private function __construct(array $cards)
     {
         $this->cards = $cards;
     }
