@@ -4,8 +4,12 @@ class FCDEngine
 {
     private static $key = 'fcd';
     private $data = array();
+    private $cards = array();
 
-    public function __construct() {}
+    public function __construct(array $cards)
+    {
+        $this->cards = $cards;
+    }
     
     public function __set($property, $value)
     {
@@ -35,7 +39,9 @@ class FCDEngine
             return unserialize($_SESSION[self::$key]['object']);
         }
         
-        return new FCDEngine;
+        $cards = array("A", "A", "A", "A", "A");
+        $cards[rand(0, 4)] = "L";
+        return new FCDEngine($cards);
     }
     
     public static function Reset($key = '')
@@ -47,5 +53,23 @@ class FCDEngine
         
         unset($_SESSION[self::$key]['object']);
     }
-
+    
+    public static function GetKey()
+    {
+        return self::$key;
+    }
+    
+    public function GetCards()
+    {
+        return $this->cards;
+    }
+    
+    public function TurnOverCard($card_index)
+    {
+        $can_continue = true;
+        if ($this->cards[$card_index] === 'L') {
+            $can_continue = false;
+        }
+        return $can_continue;
+    }
 }
